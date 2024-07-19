@@ -35,14 +35,16 @@ static char get_printable_character(uint8_t scancode, bool is_capslock_enabled);
 static bool set_keyboard_leds(uint8_t code);
 static bool reset_device();
 
-int8_t keyboard_initialize();
+int8_t init_keyboard();
 uint8_t get_key_scancode();
 void toggle_capslock();
 bool enable_capslock();
 bool disable_capslock();
-bool check_key_pressed_or_released();
+bool is_keyevent();
+uint8_t get_key_event();
 
-static char get_printable_character(uint8_t scancode, bool is_capslock_enabled) {
+static char get_printable_character(uint8_t scancode, bool is_capslock_enabled) 
+{
     switch (scancode) {
         case ONE_PRESSED: return '1';
         case TWO_PRESSED: return '2';
@@ -95,7 +97,8 @@ static char get_printable_character(uint8_t scancode, bool is_capslock_enabled) 
     }
 }
 
-static bool set_keyboard_leds(uint8_t code){
+static bool set_keyboard_leds(uint8_t code)
+{
     uint8_t response;
 
     outb(KCMD_SET_LEDS, PORT_0x60);
@@ -115,7 +118,8 @@ static bool set_keyboard_leds(uint8_t code){
     return true;
 }
 
-static bool reset_device(){
+static bool reset_device()
+{
     outb(KCMD_RESET_AND_START_SELFTESTING, PORT_0x60);
 
     while(!(inb(PORT_0x64)&1));

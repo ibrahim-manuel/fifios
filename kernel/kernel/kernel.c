@@ -1,30 +1,29 @@
 #include <stdio.h>
-#include <kernel/tty.h>
+#include <kernel/video.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "../arch/i386/drivers/keyboard/keyboard.h"
-#include "../arch/i386/drivers/keyboard/statuscode.h"
-#include "../mem/mem.h"
+#include "../../drivers/keyboard/keyboard.h"
+#include "../../drivers/keyboard/statuscode.h"
+#include "../../tty/tty.h"
+#include "../mm/paging.h"
 
-extern void enable_paging();
-extern void load_page_directory(uint32_t* page_directory);
-
-void kernel_main(void) {
+void kernel_main(void) 
+{
     char pressed_char = '\0';
-    init_page_directory();
-    create_first_page_table();
-    load_page_directory(page_directory);
-    enable_paging();
-    terminal_initialize();
-    const int keyboard_init_status = keyboard_initialize();
+    init_mem_paging();
+    init_video();
+    const int8_t keyboard_init_status = init_keyboard();
     if(keyboard_init_status == OK || keyboard_init_status == DISABLE_CAPSLOCK_FAILED)
         printf(">");
-    else{
+    else
+    {
         printf("Erro ao inicializar o teclado...");
         return;
     }
-    while(true){
-        terminal_main();
+    while(true)
+    {
+        term_main();
     }
 }
+
 

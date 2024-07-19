@@ -1,8 +1,9 @@
 #include <stdio.h>
-#include <kernel/tty.h>
+#include <kernel/video.h>
 
-int putchar(int ic) {
+int putchar(int ic) 
+{
 	char c = (char) ic;
-	terminal_write(&c, sizeof(c));
+	video_write(&c, sizeof(c));
 	return ic;
 }

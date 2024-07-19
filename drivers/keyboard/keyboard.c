@@ -1,7 +1,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <kernel/tty.h>
 #include "keyboard.h"
 #include "statuscode.h"
 #include "keycode.h"
@@ -11,7 +10,7 @@
 bool pressed_keys[NUM_MAPPED_KEYS]; // Vector global para armazenar o estado de cada tecla
 bool capslock_active = false;
 
-int8_t keyboard_initialize(){ 
+int8_t init_keyboard(){ 
     /**
     * Este código implementa o procedimento de inicialização de teclado descrito pelo artigo do wiki.osdev.org: * https://wiki.osdev.org/%228042%22_PS/2_Controller, no entanto alguns passo são suprimidos, por se entender * que não sejam necessários para a implementação de um sistema simples para estudo de conceitos. 
     **/
@@ -58,8 +57,17 @@ uint8_t get_scancode_from_buffer(){
     return get_output_buffer_byte();
 }
 
-bool check_key_pressed_or_released(){
+bool is_keyevent(){
     return is_output_buffer_full();
+}
+
+uint8_t get_key_event()
+{
+	if(is_keyevent())
+    {
+		return get_scancode_from_buffer();
+	}
+	return 0x00;
 }
 
 bool is_key_pressed(int keycode) {
