@@ -25,4 +25,6 @@ void init_mem_paging()
 {
     init_page_directory();
     create_first_page_table();
+    load_page_directory(page_directory);
+    enable_paging();
 }
