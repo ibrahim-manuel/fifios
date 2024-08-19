@@ -6,19 +6,23 @@
 #include "../../drivers/keyboard/statuscode.h"
 #include "../../tty/tty.h"
 #include "../mm/paging.h"
+#include "../mm/kalloc.h"
+
+extern int8_t final_kernel_phys_addr;
 
 void kernel_main(void) 
 {
     char pressed_char = '\0';
     init_mem_paging();
+    init_page_allocator(&final_kernel_phys_addr, 4096*1024 - (int) &final_kernel_phys_addr);
     init_video();
-    const int8_t keyboard_init_status = init_keyboard();
+    int8_t keyboard_init_status = init_keyboard();
     if(keyboard_init_status == OK || keyboard_init_status == DISABLE_CAPSLOCK_FAILED)
-        printf(">");
+        printf("$");
     else
     {
         printf("Erro ao inicializar o teclado...");
-        return;
+        return; 
     }
     while(true)
     {

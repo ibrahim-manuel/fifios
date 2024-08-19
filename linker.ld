@@ -18,5 +18,10 @@ SECTIONS
 	/* Dados não inicializados e stack */
 	.bss  : {*(.bss)}
 
+	. = ALIGN(4096);
+
+    /* Definir o símbolo após o alinhamento */
+    PROVIDE(final_kernel_phys_addr = .);
+
 	/* O compilador provavelmente vai adicionar outras secções */
 }
