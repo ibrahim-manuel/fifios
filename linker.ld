@@ -21,7 +21,7 @@ SECTIONS
 	. = ALIGN(4096);
 
     /* Definir o símbolo após o alinhamento */
-    PROVIDE(final_kernel_phys_addr = .);
+    PROVIDE(kernel_end = .);
 
 	/* O compilador provavelmente vai adicionar outras secções */
 }
