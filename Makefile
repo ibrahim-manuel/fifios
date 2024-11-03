@@ -5,12 +5,12 @@ CFLAGS = -Wall -Wextra -ffreestanding -nostdlib -Ilibc/include -Ikernel/include
 LDFLAGS = -T linker.ld -ffreestanding -nostdlib
 
 # Estrutura de diretórios
-SRC_DIR = kernel arch/i386 kernel/include/kernel kernel/kernel libc/include/sys libc/include libc/stdio libc/stdlib libc/string
+SRC_DIR = kernel arch/i386 kernel/include/kernel kernel/kernel libc/include/sys libc/include libc/stdio libc/stdlib libc/string interrupts
 OUTPUT_DIR = _output
 
 # Listagem dos arquivos fonte
-ASM_SOURCES = $(wildcard kernel/arch/i386/*.asm)
-C_SOURCES = $(wildcard kernel/arch/i386/*.c drivers/keyboard/*.c drivers/disk/*.c kernel/mm/*.c  kernel/kernel/*.c tty/*.c libc/stdio/*.c libc/stdlib/*.c libc/string/*.c)
+ASM_SOURCES = $(wildcard kernel/arch/i386/*.asm interrupts/*.asm)
+C_SOURCES = $(wildcard kernel/arch/i386/*.c drivers/keyboard/*.c drivers/disk/*.c kernel/mm/*.c  kernel/kernel/*.c tty/*.c libc/stdio/*.c libc/stdlib/*.c libc/string/*.c interrupts/*.c)
 
 # Geração das listas de objetos
 ASM_OBJECTS = $(patsubst kernel/arch/i386/%.asm, _output/kernel/arch/i386/%.o, $(ASM_SOURCES))

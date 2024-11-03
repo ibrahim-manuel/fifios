@@ -2,11 +2,15 @@
 #include <kernel/video.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <arch/i386/cpu.h>
 #include "../../drivers/keyboard/keyboard.h"
 #include "../../drivers/keyboard/statuscode.h"
 #include "../../tty/tty.h"
 #include "../mm/paging.h"
 #include "../mm/kalloc.h"
+#include "../../interrupts/idt.h"
+#include "../../interrupts/pic.h"
+
 
 extern int8_t final_kernel_phys_addr;
 
@@ -24,9 +28,12 @@ void kernel_main(void)
         printf("Erro ao inicializar o teclado...");
         return; 
     }
+    PIC_remap(0x20, 0x28);
+    idt_init();
+
     while(true)
     {
-        term_main();
+        freeze();
     }
 }
 
